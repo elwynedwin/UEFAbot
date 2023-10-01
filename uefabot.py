@@ -210,6 +210,9 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
 
         create_account_button_2_elem = driver.find_element(By.XPATH, create_account_button_2)
         create_account_button_2_elem.click()
+
+
+    
         
 
 
@@ -217,7 +220,7 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
 
         #6) Next Page
 
-        time.sleep(random.uniform(15.0, 20.0))
+        time.sleep(random.uniform(15.0,20.0))
         chrome_email_options = ChromeOptions()
         chrome_email_options.add_argument("user-data-dir=/Users/elwynfernandes/Library/Application Support/Google/Chrome/Default")
         chrome_email_options.add_argument("--profile-directory=Default")
@@ -225,17 +228,18 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
         chrome_service_email = ChromeService(executable_path='/Users/elwynfernandes/Desktop/UEFABot/chromedriveremail/chromedriver')
         emaildriver = wd.Chrome(service=chrome_service_email, options=chrome_email_options)
         emaildriver.implicitly_wait(10)
-        wait = WebDriverWait(emaildriver, 20)
+        wait = WebDriverWait(emaildriver, 50)
         emaildriver.get("https://outlook.live.com/mail/0/")
-        time.sleep(40)
+        time.sleep(25)
 
+        
 
+        parent_div_xpath = '//div[@class="EeHm8"]/div[1]'
 
-        parent_div_xpath = '//*[@id="MainModule"]/div/div/div[3]/div/div/div[1]/div[2]/div/div/div/div/div/div/div/div[2]/div'
-        parent_div_elem = emaildriver.find_element(By.XPATH, parent_div_xpath)
+        parent_div_elem = wait.until(EC.presence_of_element_located((By.XPATH, parent_div_xpath)))
 
-        first_child_div = parent_div_elem.find_element(By.XPATH, './div[2]')
-        aria_label = first_child_div.get_attribute('aria-label')
+        # first_child_div = parent_div_elem.find_element(By.XPATH, './div[1]')
+        aria_label = parent_div_elem.get_attribute('aria-label')
         print(aria_label)
 
         confirmation_code_pattern = r'Here’s your confirmation code: (\d+)'
@@ -271,9 +275,7 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
         time.sleep(random.uniform(1.0, 2.0))
 
         emaildriver.quit()
-        
-
-        email_code_elem_1 = driver.find_element(By.XPATH, email_code_xpath_1)
+        email_code_elem_1 = wait.until(EC.presence_of_element_located((By.XPATH, email_code_xpath_1)))
         email_code_elem_2 = driver.find_element(By.XPATH, email_code_xpath_2)
         email_code_elem_3 = driver.find_element(By.XPATH, email_code_xpath_3)
         email_code_elem_4 = driver.find_element(By.XPATH, email_code_xpath_4)
@@ -302,11 +304,20 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
 
 
 ##      1) Final Page Xpath's
+        time.sleep(8)
+        create_yellow_xpath = '//pk-button[@class="pk-button tickets__btn pk-mb--m js-tracking-card js-tracking-link adaptive-width hydrated"]//span[text()="Create your account"]'
+
+        yellow_create_button_xpath_elem = driver.find_element(By.XPATH, create_yellow_xpath)
+        driver.execute_script('arguments[0].scrollIntoView(true)', yellow_create_button_xpath_elem)
+        time.sleep(10)
+        yellow_create_button_xpath_elem.click()
         time.sleep(3)
 
 
 
-        address_xpath_elem = driver.find_element(By.XPATH, address_xpath)
+        address_xpath_elem = wait.until(EC.element_to_be_clickable((By.XPATH, address_xpath)))
+
+
         postcode_xpath_elem = driver.find_element(By.XPATH, postcode_xpath)
         city_xpath_elem = driver.find_element(By.XPATH, city_xpath)
         select_country_xpath_elem = driver.find_element(By.XPATH, select_country_xpath)
@@ -314,7 +325,7 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
         select_number_xpath_elem = driver.find_element(By.XPATH, select_number_xpath)
         click_number_xpath_elem = driver.find_element(By.XPATH, click_number_xpath)
         phone_number_xpath_elem = driver.find_element(By.XPATH, phone_number_xpath)
-
+        time.sleep(5)
         driver.execute_script('arguments[0].scrollIntoView(true)', address_xpath_elem)
         address_xpath_elem.send_keys(address)
         time.sleep(3)
@@ -401,6 +412,10 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
 
 
     
+
+
+
+
         time.sleep(3)
         driver.switch_to.default_content()
 
@@ -416,6 +431,7 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
                 csv_writer.writerow(["First Name", "Last Name", "Email", "Address", "Postcode", "Number", "Day", "Month", "Year", "Confirmation Code", "Password"])
             
             csv_writer.writerow(result)
+
         
     except Exception as e:
         print(f"Error occurred for {email}: {e}")

@@ -58,60 +58,11 @@ select_number_xpath = '//*[@id="mobile_prefix"]'
 click_number_xpath = '//*[@id="mobile_prefix"]/option[110]'
 phone_number_xpath = '//*[@id="mobile_number"]'
 
-##email, password, first_name, last_name, dob_day, dob_month, dob_year, address, postcode, phone_number
-
-
-
-
-PROXY = "11.456.448.110:8080,11.456.448.110:8080,11.456.448.110:8080,11.456.448.110:8080,11.456.448.110:8080"
 
 
 
 def submit_form_with_data(first_name, last_name, email, number, address, postcode):
     try:
-##        chrome_options = ChromeOptions()
-##
-##        ua = UserAgent()
-##        user_agent = ua.random
-##        print(user_agent)
-##
-##        #chrome_options.add_argument('--proxy-server=%s' % PROXY)
-##        chrome_options.add_argument('--incognito')
-##        chrome_options.add_argument(f'--user-agent={user_agent}')
-##        chrome_service = ChromeService(executable_path='/Users/elwynfernandes/Desktop/UEFABot/chromedriver/chromedriver')
-##        driver = wd.Chrome(service=chrome_service, options=chrome_options)
-##        driver.implicitly_wait(10)
-##        wait = WebDriverWait(driver, 20)
-##
-##        # 1) Open up Page and initialise Webdriver
-##        driver.get("https://idpassets.uefa.com/saml/ticket-login.html")
-##        time.sleep(3)
-##
-##
-####        iframe = driver.find_element(By.XPATH, iframe_xpath)
-####        driver.switch_to.frame(iframe)
-##        #time.sleep(random.uniform(1.0, 5.0))
-##
-##        # 2) Click First Element on Page #
-##        time.sleep(random.uniform(1.0, 3.0))
-####        pre_reg_button_elem = driver.find_element(By.XPATH, pre_reg_button)
-####        pre_reg_button_elem.click()
-##
-##        # 3) Finding Form Elements #
-##        time.sleep(random.uniform(1.0, 3.0))
-##        create_account_elem = driver.find_element(By.XPATH, create_account_button)
-##        create_account_elem.click()
-##
-##
-##
-##        time.sleep(random.uniform(1.0, 3.0))
-##
-
-        create_yellow_xpath = '//pk-button[@class="pk-button tickets__btn pk-mb--m js-tracking-card js-tracking-link adaptive-width hydrated"]//span[text()="Create your account"]'
-
-
-
-        
         chrome_email_options = ChromeOptions()
         chrome_email_options.add_argument("user-data-dir=/Users/elwynfernandes/Library/Application Support/Google/Chrome/Default")
         chrome_email_options.add_argument("--profile-directory=Default")
@@ -120,43 +71,15 @@ def submit_form_with_data(first_name, last_name, email, number, address, postcod
         emaildriver = wd.Chrome(service=chrome_service, options=chrome_email_options)
         emaildriver.implicitly_wait(10)
         wait = WebDriverWait(emaildriver, 20)
-        emaildriver.get("https://outlook.live.com/mail/0/")
+        emaildriver.get("https://www.uefa.com/tickets/")
 
-        parent_div_xpath = '//div[@class="EeHm8"]/div[1]'
+        # create_yellow_xpath = '//pk-button[@class="pk-button tickets__btn pk-mb--m js-tracking-card js-tracking-link adaptive-width hydrated"]//span[text()="Create your account"]'
 
-        parent_div_elem = wait.until(EC.presence_of_element_located((By.XPATH, parent_div_xpath)))
+        # time.sleep(3)
+        # create_yellow_xpath_elem = wait.until(EC.presence_of_element_located((By.XPATH, create_yellow_xpath)))
+        # create_yellow_xpath_elem.click()
 
-        # first_child_div = parent_div_elem.find_element(By.XPATH, './div[1]')
-        aria_label = parent_div_elem.get_attribute('aria-label')
-        print(aria_label)
-
-        confirmation_code_pattern = r'Here’s your confirmation code: (\d+)'
-        match = re.search(confirmation_code_pattern, aria_label)
-
-        if match:
-            confirmation_code = match.group(1)
-            print("Confirmation Code:", confirmation_code)
-        else:
-            print("Confirmation code not found.")
-
-        print("confirm code : ", confirmation_code)
-        print("confirm code : ", confirmation_code)
-
-        digits = list(confirmation_code)
-
-        # Append each digit to separate variables
-        digit1, digit2, digit3, digit4, digit5, digit6 = digits
-
-        print("Digit 1:", digit1)
-        print("Digit 2:", digit2)
-        print("Digit 3:", digit3)
-        print("Digit 4:", digit4)
-        print("Digit 5:", digit5)
-        print("Digit 6:", digit6)
-        print("Hello")
-
-
-
+       
 
 
 
